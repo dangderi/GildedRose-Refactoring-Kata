@@ -26,30 +26,26 @@ class Shop {
     const doesQualityDecrease = item.name !== AGED_BRIE && item.name !== BACKSTAGE_PASSES && item.name !== SULFURAS;
     const isExpired = item.sellIn < 1
     const decreaseRate = this.getQualityDecreaseRate(item, isExpired);
+    const hasExpiryDate = item.name !== SULFURAS;
 
     if ( doesQualityDecrease ) {
         this.changeQuality(item, decreaseRate);
     }
     if ( item.name === AGED_BRIE ) {
-        this.changeQuality(item, 1);
+      this.changeQuality(item, isExpired ? 2 : 1);
     }
     if (item.name === BACKSTAGE_PASSES) {
       this.updateBackstagePassQuality(item, isExpired);
     }
-    if (item.name !== SULFURAS) {
+    if ( hasExpiryDate ) {
       item.sellIn = item.sellIn - 1;
     }
 
-    if ( isExpired ) {
-      if ( doesQualityDecrease ) {
-        this.changeQuality(item, decreaseRate);
-      }
-      if ( item.name === AGED_BRIE ) {
-        this.changeQuality(item, 1);
-      }
+    if ( isExpired && item.name === AGED_BRIE ) {
+      this.changeQuality(item, 1);
+    }
 
     return this.items;
-    }
   }
 
   changeQuality( item, change ) {
