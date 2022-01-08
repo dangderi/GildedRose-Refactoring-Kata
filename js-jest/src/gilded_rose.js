@@ -6,6 +6,10 @@ class Item {
   }
 }
 
+const AGED_BRIE = "Aged Brie";
+const SULFURAS = 'Sulfuras, Hand of Ragnaros';
+const BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert';
+
 class Shop {
   constructor(items=[]){
     this.items = items;
@@ -18,16 +22,16 @@ class Shop {
   }
 
   updateQuality(item) {
-      if (item.name != 'Aged Brie' && item.name != 'Backstage passes to a TAFKAL80ETC concert') {
+      if (item.name !== AGED_BRIE && item.name != BACKSTAGE_PASSES) {
         if (item.quality > 0) {
-          if (item.name != 'Sulfuras, Hand of Ragnaros') {
+          if (item.name != SULFURAS) {
             item.quality = item.quality - 1;
           }
         }
       } else {
         if (item.quality < 50) {
           item.quality = item.quality + 1;
-          if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
+          if (item.name == BACKSTAGE_PASSES) {
             if (item.sellIn < 11) {
               if (item.quality < 50) {
                 item.quality = item.quality + 1;
@@ -41,14 +45,14 @@ class Shop {
           }
         }
       }
-      if (item.name != 'Sulfuras, Hand of Ragnaros') {
+      if (item.name != SULFURAS) {
         item.sellIn = item.sellIn - 1;
       }
       if (item.sellIn < 0) {
-        if (item.name != 'Aged Brie') {
-          if (item.name != 'Backstage passes to a TAFKAL80ETC concert') {
+        if (item.name != AGED_BRIE) {
+          if (item.name != BACKSTAGE_PASSES) {
             if (item.quality > 0) {
-              if (item.name != 'Sulfuras, Hand of Ragnaros') {
+              if (item.name != SULFURAS) {
                 item.quality = item.quality - 1;
               }
             }
