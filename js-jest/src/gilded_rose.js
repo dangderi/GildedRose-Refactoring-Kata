@@ -24,39 +24,40 @@ class Shop {
 
   updateQuality(item) {
     const qualityChange = item.name === CONJURED ? -2 : -1;
-    if (item.name !== AGED_BRIE && item.name !== BACKSTAGE_PASSES) {
-        if (item.name !== SULFURAS) {
-          this.changeQuality(item, qualityChange);
-        }
-    } else {
+    const doesQualityDecrease = item.name !== AGED_BRIE && item.name !== BACKSTAGE_PASSES && item.name !== SULFURAS;
+
+    if ( doesQualityDecrease ) {
+        this.changeQuality(item, qualityChange);
+    }
+    if ( item.name === AGED_BRIE ) {
         this.changeQuality(item, 1);
-        if (item.name === BACKSTAGE_PASSES) {
-          if (item.sellIn < 11) {
-              this.changeQuality(item, 1);
-          }
-          if (item.sellIn < 6) {
-              this.changeQuality(item, 1);
-          }
-        }
+    }
+    if (item.name === BACKSTAGE_PASSES) {
+      this.changeQuality(item, 1);
+      if (item.sellIn < 11) {
+          this.changeQuality(item, 1);
+      }
+      if (item.sellIn < 6) {
+          this.changeQuality(item, 1);
+      }
     }
     if (item.name !== SULFURAS) {
       item.sellIn = item.sellIn - 1;
     }
+
     if (item.sellIn < 0) {
-      if (item.name !== AGED_BRIE) {
-        if (item.name !== BACKSTAGE_PASSES) {
-            if (item.name !== SULFURAS) {
-              this.changeQuality(item, -1);
-            }
-        } else {
-          this.changeQuality(item, -1);
-        }
-      } else {
-          this.changeQuality(item, 1);
+      if ( doesQualityDecrease ) {
+        this.changeQuality(item, qualityChange);
       }
-    }
+
+      if ( item.name === AGED_BRIE ) {
+        this.changeQuality(item, 1);
+      } else if (item.name === BACKSTAGE_PASSES) {
+          this.changeQuality(item, -item.quality);
+        }
 
     return this.items;
+    }
   }
 
   changeQuality( item, change ) {
