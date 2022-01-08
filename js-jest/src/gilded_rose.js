@@ -1,5 +1,5 @@
 class Item {
-  constructor(name, sellIn, quality){
+  constructor( name, sellIn, quality ) {
     this.name = name;
     this.sellIn = sellIn;
     this.quality = quality;
@@ -12,37 +12,37 @@ const BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
 const CONJURED = "Conjured Mana Cake";
 
 class Shop {
-  constructor(items=[]){
+  constructor( items=[] ) {
     this.items = items;
   }
 
   updateQualityItem() {
-    for (const item of this.items) {
+    for ( const item of this.items ) {
       this.updateQuality(item);
     }
   }
 
-  updateQuality(item) {
+  updateQuality( item ) {
     const doesQualityDecrease = item.name !== AGED_BRIE && item.name !== BACKSTAGE_PASSES && item.name !== SULFURAS;
-    const isExpired = item.sellIn < 1
-    const decreaseRate = this.getQualityDecreaseRate(item, isExpired);
+    const isExpired = item.sellIn < 1;
+    const decreaseRate = this.getQualityDecreaseRate( item, isExpired );
     const hasExpiryDate = item.name !== SULFURAS;
 
     if ( doesQualityDecrease ) {
-        this.changeQuality(item, decreaseRate);
+        this.changeQuality( item, decreaseRate );
     }
     if ( item.name === AGED_BRIE ) {
-      this.changeQuality(item, isExpired ? 2 : 1);
+      this.changeQuality( item, isExpired ? 2 : 1 );
     }
-    if (item.name === BACKSTAGE_PASSES) {
-      this.updateBackstagePassQuality(item, isExpired);
+    if ( item.name === BACKSTAGE_PASSES ) {
+      this.updateBackstagePassQuality( item, isExpired );
     }
     if ( hasExpiryDate ) {
       item.sellIn = item.sellIn - 1;
     }
 
     if ( isExpired && item.name === AGED_BRIE ) {
-      this.changeQuality(item, 1);
+      this.changeQuality( item, 1 );
     }
 
     return this.items;
@@ -54,17 +54,17 @@ class Shop {
     item.quality = inValidRange ? newQuality : item.quality;
   }
 
-  getQualityDecreaseRate(item, isExpired) {
+  getQualityDecreaseRate( item, isExpired ) {
     const baseQualityDecreaseRate = item.name === CONJURED ? -2 : -1;
     return isExpired ? baseQualityDecreaseRate * 2 : baseQualityDecreaseRate;
   }
 
-  updateBackstagePassQuality(item, isExpired) {
-    this.changeQuality(item, 1);
-    if (item.sellIn < 11) {
+  updateBackstagePassQuality( item, isExpired ) {
+    this.changeQuality( item, 1 );
+    if ( item.sellIn < 11 ) {
       this.changeQuality(item, 1);
     }
-    if (item.sellIn < 6) {
+    if ( item.sellIn < 6) {
       this.changeQuality(item, 1);
     }
     if ( isExpired ) {
