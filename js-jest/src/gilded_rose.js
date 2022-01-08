@@ -24,7 +24,8 @@ class Shop {
 
   updateQuality(item) {
     const doesQualityDecrease = item.name !== AGED_BRIE && item.name !== BACKSTAGE_PASSES && item.name !== SULFURAS;
-    const decreaseRate = this.getQualityDecreaseRate(item,item.sellIn < 1);
+    const isExpired = item.sellIn < 1
+    const decreaseRate = this.getQualityDecreaseRate(item, isExpired);
 
     if ( doesQualityDecrease ) {
         this.changeQuality(item, decreaseRate);
@@ -33,13 +34,7 @@ class Shop {
         this.changeQuality(item, 1);
     }
     if (item.name === BACKSTAGE_PASSES) {
-      this.changeQuality(item, 1);
-      if (item.sellIn < 11) {
-          this.changeQuality(item, 1);
-      }
-      if (item.sellIn < 6) {
-          this.changeQuality(item, 1);
-      }
+      this.updateBackstagePassQuality(item, isExpired);
     }
     if (item.name !== SULFURAS) {
       item.sellIn = item.sellIn - 1;
@@ -49,12 +44,9 @@ class Shop {
       if ( doesQualityDecrease ) {
         this.changeQuality(item, decreaseRate);
       }
-
       if ( item.name === AGED_BRIE ) {
         this.changeQuality(item, 1);
-      } else if (item.name === BACKSTAGE_PASSES) {
-          this.changeQuality(item, -item.quality);
-        }
+      }
 
     return this.items;
     }
@@ -69,6 +61,19 @@ class Shop {
   getQualityDecreaseRate(item, isExpired) {
     const baseQualityDecreaseRate = item.name === CONJURED ? -2 : -1;
     return isExpired ? baseQualityDecreaseRate * 2 : baseQualityDecreaseRate;
+  }
+
+  updateBackstagePassQuality(item, isExpired) {
+    this.changeQuality(item, 1);
+    if (item.sellIn < 11) {
+      this.changeQuality(item, 1);
+    }
+    if (item.sellIn < 6) {
+      this.changeQuality(item, 1);
+    }
+    if ( isExpired ) {
+      this.changeQuality(item, -item.quality);
+    }
   }
 }
 
