@@ -7,8 +7,9 @@ class Item {
 }
 
 const AGED_BRIE = "Aged Brie";
-const SULFURAS = 'Sulfuras, Hand of Ragnaros';
-const BACKSTAGE_PASSES = 'Backstage passes to a TAFKAL80ETC concert';
+const SULFURAS = "Sulfuras, Hand of Ragnaros";
+const BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
+const CONJURED = "Conjured Mana Cake";
 
 class Shop {
   constructor(items=[]){
@@ -22,9 +23,10 @@ class Shop {
   }
 
   updateQuality(item) {
+    const qualityChange = item.name === CONJURED ? -2 : -1;
     if (item.name !== AGED_BRIE && item.name !== BACKSTAGE_PASSES) {
         if (item.name !== SULFURAS) {
-          this.changeQuality(item, -1);
+          this.changeQuality(item, qualityChange);
         }
     } else {
         this.changeQuality(item, 1);
