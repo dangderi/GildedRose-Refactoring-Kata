@@ -12,7 +12,7 @@ const BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert";
 const CONJURED = "Conjured Mana Cake";
 
 class Shop {
-  constructor( items=[] ) {
+  constructor( items = [] ) {
     this.items = items;
   }
 
@@ -29,7 +29,7 @@ class Shop {
     const hasExpiryDate = item.name !== SULFURAS;
 
     if ( doesQualityDecrease ) {
-        this.changeQuality( item, decreaseRate );
+      this.changeQuality( item, decreaseRate );
     }
     if ( item.name === AGED_BRIE ) {
       this.changeQuality( item, isExpired ? 2 : 1 );
@@ -38,19 +38,15 @@ class Shop {
       this.updateBackstagePassQuality( item, isExpired );
     }
     if ( hasExpiryDate ) {
-      item.sellIn = item.sellIn - 1;
-    }
-
-    if ( isExpired && item.name === AGED_BRIE ) {
-      this.changeQuality( item, 1 );
+      item.sellIn -= 1;
     }
 
     return this.items;
   }
 
   changeQuality( item, change ) {
-    const newQuality = item.quality += change;
-    const inValidRange = newQuality >= 0 && newQuality <= 50;
+    const newQuality = item.quality + change;
+    const inValidRange = newQuality >= 0 && newQuality <= 49;
     item.quality = inValidRange ? newQuality : item.quality;
   }
 
@@ -62,13 +58,13 @@ class Shop {
   updateBackstagePassQuality( item, isExpired ) {
     this.changeQuality( item, 1 );
     if ( item.sellIn < 11 ) {
-      this.changeQuality(item, 1);
+      this.changeQuality( item, 1 );
     }
-    if ( item.sellIn < 6) {
-      this.changeQuality(item, 1);
+    if ( item.sellIn < 6 ) {
+      this.changeQuality( item, 1 );
     }
     if ( isExpired ) {
-      this.changeQuality(item, -item.quality);
+      this.changeQuality( item, -item.quality );
     }
   }
 }

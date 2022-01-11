@@ -11,6 +11,7 @@ const items = [
   new Item("Backstage passes to a TAFKAL80ETC concert", 10, 47),
   new Item("Backstage passes to a TAFKAL80ETC concert", 5, 47),
   new Item("Backstage passes to a TAFKAL80ETC concert", 1, 49),
+  new Item("Backstage passes to a TAFKAL80ETC concert", 0, 49),
 
   // This Conjured item does not work properly yet
   new Item("Conjured Mana Cake", 3, 6),
